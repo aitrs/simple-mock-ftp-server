@@ -4,7 +4,6 @@ import { getDataFromSocket, getResponseFromSocket, getSocket, socketIsConnected 
 import * as Commands from '../../src/ftp/commands';
 import { FtpConfiguration } from '../../src/server';
 import { MockFsNode, changeDirectory, create } from '../../src/mockfs';
-import path from 'path';
 
 const testPort = 12346;
 describe('Passive file operations, anonymous', () => {
@@ -41,7 +40,7 @@ describe('Passive file operations, anonymous', () => {
         name: 'boo.file',
         user: 'test',
         nodeType: 'file',
-        contents: Buffer.from('This is boo1')
+        contents: Buffer.from('This is boo1'),
     };
     const folder1: MockFsNode = {
         mode: 777,
@@ -150,7 +149,7 @@ describe('Passive file operations, anonymous', () => {
             'buffered file',
             {
                 path: '/folder1/foo',
-                expectedContents: Buffer.from('bar'),
+                expectedContents: Buffer.from('bar\n'),
                 expectedResponses: [
                     '150 Opening BINARY mode data connection for /folder1/foo\n',
                     '226 Transfer complete\n',
@@ -161,7 +160,7 @@ describe('Passive file operations, anonymous', () => {
             'targeted file',
             {
                 path: '/baz',
-                expectedContents: Buffer.from('foo,bar,baz\n41,42,43'),
+                expectedContents: Buffer.from('foo,bar,baz\n41,42,43\n'),
                 expectedResponses: [
                     '150 Opening BINARY mode data connection for /baz\n',
                     '226 Transfer complete\n',
@@ -172,7 +171,7 @@ describe('Passive file operations, anonymous', () => {
             'buffered file with relative path',
             {
                 path: './folder1/foo',
-                expectedContents: Buffer.from('bar'),
+                expectedContents: Buffer.from('bar\n'),
                 expectedResponses: [
                     '150 Opening BINARY mode data connection for ./folder1/foo\n',
                     '226 Transfer complete\n',
@@ -183,7 +182,7 @@ describe('Passive file operations, anonymous', () => {
             'targeted file with relative path',
             {
                 path: './baz',
-                expectedContents: Buffer.from('foo,bar,baz\n41,42,43'),
+                expectedContents: Buffer.from('foo,bar,baz\n41,42,43\n'),
                 expectedResponses: [
                     '150 Opening BINARY mode data connection for ./baz\n',
                     '226 Transfer complete\n',
@@ -279,7 +278,7 @@ describe('Passive file operations, anonymous', () => {
                 cwd: '/',
                 path: undefined,
                 expectedPreliminary: '150 Here comes the directory listing\n',
-                expectedData: Buffer.from(`${['folder1', 'baz'].join('\n')}\n`),
+                expectedData: Buffer.from(`${['folder1', 'baz'].join('\r\n')}\r\n`),
                 expectedFinal: '250 \n',
             },
         ],
@@ -289,7 +288,7 @@ describe('Passive file operations, anonymous', () => {
                 cwd: '/folder1',
                 path: undefined,
                 expectedPreliminary: '150 Here comes the directory listing\n',
-                expectedData: Buffer.from('foo\n'),
+                expectedData: Buffer.from('foo\r\n'),
                 expectedFinal: '250 \n',
             },
         ],
@@ -299,7 +298,7 @@ describe('Passive file operations, anonymous', () => {
                 cwd: '/',
                 path: './',
                 expectedPreliminary: '150 Here comes the directory listing\n',
-                expectedData: Buffer.from(`${['folder1', 'baz'].join('\n')}\n`),
+                expectedData: Buffer.from(`${['folder1', 'baz'].join('\r\n')}\r\n`),
                 expectedFinal: '250 \n',
             },
         ],
@@ -309,7 +308,7 @@ describe('Passive file operations, anonymous', () => {
                 cwd: '/',
                 path: './baz',
                 expectedPreliminary: '150 Here comes the directory listing\n',
-                expectedData: Buffer.from('baz\n'),
+                expectedData: Buffer.from('baz\r\n'),
                 expectedFinal: '250 \n',
             },
         ],

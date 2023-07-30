@@ -49,10 +49,7 @@ function processCommand(
         case FtpCommands.reinit:
             return initState(configuration);
         case FtpCommands.quit:
-            return {
-                ...previousState,
-                state: FtpStates.End,
-            };
+            return previousState;
         case FtpCommands.port:
             return com.port(
                 c.args[0],
@@ -213,6 +210,11 @@ export function bindSession(socket: net.Socket, configuration: FtpConfiguration)
         const command = bufferToCommand(data);
 
         if (command) {
+            if (command.command === FtpCommands.quit) {
+                state.passiveServer?.close();
+                socket.end();
+            }
+
             switch (state.state) {
                 case FtpStates.Wait:
                     state = processCommand(
@@ -240,11 +242,6 @@ export function bindSession(socket: net.Socket, configuration: FtpConfiguration)
                             state,
                         );
                     }
-                    break;
-                case FtpStates.End:
-                    state.passiveServer?.close((err) => {
-                        console.error(err);
-                    });
                     break;
                 default:
                     break;

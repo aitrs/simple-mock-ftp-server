@@ -2,7 +2,6 @@ import { Server, Socket, createServer } from 'net';
 import { FtpStates, StateNode } from '../../src/ftp/states';
 import { FtpConfiguration } from '../../src/server';
 import { MockFsNode, create } from '../../src/mockfs';
-import path from 'path';
 import { getResponseFromSocket, getSocket, socketIsConnected } from './common';
 import * as Commands from '../../src/ftp/commands';
 
@@ -44,7 +43,7 @@ describe('Active file operations, logged in', () => {
         name: 'boo.file',
         user: 'foobar',
         nodeType: 'file',
-        contents: Buffer.from('This is boo1')
+        contents: Buffer.from('This is boo1'),
     };
     const folder1: MockFsNode = {
         mode: 777,

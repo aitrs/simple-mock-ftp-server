@@ -10,15 +10,6 @@ const testPort = 12347;
 
 describe('Commands', () => {
     const now = new Date();
-    const {
-        folder1,
-        root,
-        rootWithRenamedFooFile,
-        rootWithFolder1InFolder2,
-        rootWithFolder3,
-        rootWithoutFooFile,
-        rootWithoutFolder1,
-    } = generateDefaultFsNodes(now);
 
     describe('Not logged in', () => {
         let configuration: FtpConfiguration = {

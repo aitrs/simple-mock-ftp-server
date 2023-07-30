@@ -1,4 +1,3 @@
-import path from 'path';
 import * as Mfs from '../src/mockfs';
 
 describe('Mock filesystem tests', () => {
@@ -165,7 +164,7 @@ describe('Mock filesystem tests', () => {
             ['with non existent path2', { path: '/folder2/folder3/', expected: undefined }],
             ['with non existent relative path1', { path: './folder2/boo', expected: undefined }],
             ['with non existent relative path2', { path: '/folder1/../folder3/', expected: undefined }],
-            ['with non existent relative path3', { path: '../', expected: undefined }],
+            ['with non existent relative path3', { path: '../', expected: undefined }], 
         ])('get %s', (_testCase, args) => {
             const { path, expected } = args;
 
@@ -176,7 +175,7 @@ describe('Mock filesystem tests', () => {
             }
         });
     });
-
+    
     describe('pathExists', () => {
         const fs = Mfs.create({
             foo: {
@@ -365,7 +364,7 @@ describe('Mock filesystem tests', () => {
                         user: 'test',
                         name: 'baz',
                         nodeType: 'file',
-                        contents: Buffer.from('boo')
+                        contents: Buffer.from('boo'),
                     },
                 ],
             });
@@ -406,7 +405,7 @@ describe('Mock filesystem tests', () => {
                         user: 'test',
                         name: 'baz',
                         nodeType: 'file',
-                        contents: Buffer.from('boo')
+                        contents: Buffer.from('boo'),
                     },
                 ],
             });

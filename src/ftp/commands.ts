@@ -166,7 +166,7 @@ export function changeWorkingDir(
                 return previous;
             }
 
-            if (!pathExists(configuration.mockFilesystem, path)) {
+            if (!pathExists(previous.currentPath, path)) {
                 socket.write(new Reply(
                     Replies.TransientNegativeCompletion.actionNotTaken,
                     'Unknown path',
@@ -253,13 +253,17 @@ function download(
 
         if (found.contents) {
             dataSocket.write(found.contents || Buffer.from([]));
+            dataSocket.write(Buffer.from('\n'));
             dataSocket.end();
         } else if (found.target) {
             const readStream = createReadStream(found.target);
-            readStream.pipe(dataSocket);
+            readStream.on('data', (chunk) => {
+                dataSocket.write(chunk);
+            });
             readStream.on('end', () => {
+                dataSocket.write(Buffer.from('\n'));
                 dataSocket.end();
-            })
+            });
         }
         previous.transferPending = false;
 
@@ -630,10 +634,12 @@ function listData(data: MockFsNode[], socket: Socket, previous: StateNode, detai
         const list = detailed ? data.map(lineState) : data.map((d) => d.name);
 
         if (previous.passiveServer) {
-            previous.dataSocket?.write(`${Buffer.from(list.join('\n'))}\n`);
+            previous.dataSocket?.write(Buffer.from(list.join('\r\n')));
+            previous.dataSocket?.write(Buffer.from('\r\n'));
         } else {
             const client = getClientSocket(previous, socket);
-            client.write(`${Buffer.from(list.join('\n'))}\n`);
+            client.write(Buffer.from(list.join('\r\n')));
+            client.write(Buffer.from('\r\n'));
             client.end();
         }
     } else {

@@ -53,7 +53,7 @@ export function create(source: any, user = 'root', initStamps = new Date()): Moc
                 modifiedAt: initStamps,
                 name: key,
                 parent,
-                contents: obj.___contents,
+                contents: obj.___contents ? obj.___contents : undefined,
                 target: obj.___target,
                 nodeType: 'file',
             };
@@ -108,16 +108,22 @@ export function goToRoot(source: MockFsNode): MockFsNode {
     return current;
 }
 
-/**
- * The function `get` retrieves a `MockFsNode` from a given source based on a specified path.
- * @param {MockFsNode} source - The `source` parameter is an object representing a node in a mock file
- * system. It contains information about the node, such as its name and children.
- * @param {string} path - The `path` parameter is a string that represents the file or directory path
- * you want to retrieve from the `source` object.
- * @returns a `MockFsNode` object or `undefined`.
- */
-export function get(source: MockFsNode, path: string): MockFsNode | undefined {
+function preSanitizeGetPath(path: string): string {
+    if (path?.length) {
+        if (
+            path[0] !== '.' &&
+            path[0] !== '/'
+        ) {
+            return `./${path}`;
+        }
+    }
+
+    return path;
+}
+
+function _get(source: MockFsNode, path: string): MockFsNode {
     const splitPath = sanitizedSplitPath(path === '' ? '/' : path);
+    //console.log(`get(${source.name}, ${path})`);
     if (splitPath[0] === '') {
         source = goToRoot(source);
     }
@@ -127,13 +133,13 @@ export function get(source: MockFsNode, path: string): MockFsNode | undefined {
             return undefined;
         }
 
-        return get(source, [source.name, ...splitPath.slice(1)].join('/'));
+        return _get(source, [source.name, ...splitPath.slice(1)].join('/'));
     } else if (splitPath[0] === '..') {
         if (!source.parent) {
             return undefined;
         }
 
-        return get(source.parent, [source.parent.name, ...splitPath.slice(1)].join('/'));
+        return _get(source.parent, [source.parent.name, ...splitPath.slice(1)].join('/'));
     } else if (splitPath[0] === source.name) {
         if (splitPath.length === 1) {
             return source;
@@ -142,16 +148,16 @@ export function get(source: MockFsNode, path: string): MockFsNode | undefined {
                 return undefined;
             }
 
-            return get(source, [source.name, ...splitPath.slice(2)].join('/'));
+            return _get(source, [source.name, ...splitPath.slice(2)].join('/'));
         } else if (splitPath[1] === '..') {
             if (!source.parent) {
                 return undefined;
             }
 
-            return get(source.parent, [source.parent.name, ...splitPath.slice(2)].join('/'));
+            return _get(source.parent, [source.parent.name, ...splitPath.slice(2)].join('/'));
         } else if (source.children && splitPath.length >= 1) {
             for (let child of source.children) {
-                const found = get(child, splitPath.slice(1).join('/'));
+                const found = _get(child, splitPath.slice(1).join('/'));
 
                 if (found) {
                     return found;
@@ -164,6 +170,21 @@ export function get(source: MockFsNode, path: string): MockFsNode | undefined {
     }
 
     return source;
+
+}
+
+/**
+ * The function `get` retrieves a `MockFsNode` from a given source based on a specified path.
+ * @param {MockFsNode} source - The `source` parameter is an object representing a node in a mock file
+ * system. It contains information about the node, such as its name and children.
+ * @param {string} path - The `path` parameter is a string that represents the file or directory path
+ * you want to retrieve from the `source` object.
+ * @returns a `MockFsNode` object or `undefined`.
+ */
+export function get(source: MockFsNode, path: string): MockFsNode | undefined {
+    const sanitizedPath = preSanitizeGetPath(path);
+
+    return _get(source, sanitizedPath);
 }
 
 /**

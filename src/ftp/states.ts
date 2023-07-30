@@ -7,7 +7,6 @@ import TypedEmitter from 'typed-emitter';
 export enum FtpStates {
     Wait,
     WaitSpecific,
-    End,
 }
 export interface StateNode {
     state: FtpStates,
