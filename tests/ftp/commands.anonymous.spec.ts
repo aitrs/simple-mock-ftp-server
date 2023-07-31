@@ -335,10 +335,10 @@ describe('Commands', () => {
         });
 
         test.each([
-            ['/folder1', '/folder1'],
-            ['./folder1', '/folder1'],
-            ['/', '/'],
-            ['./', '/'],
+            ['/folder1', '"/folder1" is the current directory'],
+            ['./folder1', '"/folder1" is the current directory'],
+            ['/', '"/" is the current directory'],
+            ['./', '"/" is the current directory'],
         ])('printWorkingDirectory from %s', async (cwd, expected) => {
             state.currentPath = changeDirectory(state.currentPath, cwd) || state.currentPath;
             expect(Commands.printWorkingDirectory(socket, state)).toMatchObject(state);

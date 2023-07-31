@@ -622,7 +622,7 @@ export function printWorkingDirectory(
     return allow(socket, previous, () => {
         ok(
             socket,
-            getAbsolutePath(previous.currentPath),
+            `"${getAbsolutePath(previous.currentPath)}" is the current directory`,
             Replies.PositiveCompletion.pathCreated
         );
 
