@@ -1,6 +1,6 @@
 {
   "name": "@aitrs/simple-mock-ftp-server",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Simple mock ftp server to add in your unit tests",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
