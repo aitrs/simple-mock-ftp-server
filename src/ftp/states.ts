@@ -2,7 +2,6 @@ import { Server } from 'node:net';
 import { MockFsNode } from '../mockfs';
 import { Command, StructureMode, TypeMode } from './definitions';
 import { Socket } from 'node:net';
-import TypedEmitter from 'typed-emitter';
 
 export enum FtpStates {
     Wait,

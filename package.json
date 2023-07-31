@@ -1,6 +1,6 @@
 {
   "name": "@aitrs/simple-mock-ftp-server",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Simple mock ftp server to add in your unit tests",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -35,8 +35,6 @@
     "typescript": "^5.1.6"
   },
   "dependencies": {
-    "@types/moment": "^2.13.0",
-    "moment": "^2.29.4",
-    "typed-emitter": "^2.1.0"
+    "moment": "^2.29.4"
   }
 }
