@@ -252,10 +252,6 @@ export function bindSession(socket: net.Socket, configuration: FtpConfiguration)
                 Replies.PositiveCompletion.ok,
                 '',
             ).toString());
-            console.log(`Reveiced ignored command ${data.toString()}`);
-            console.log('This means that this command is not implemented AND not defined');
-            console.log('If you need it anyway, you can contribute to the project at https://github.com/aitrs/simple-mock-ftp-server');
-            console.log('Or alternately, open an issue : https://github.com/aitrs/simple-mock-ftp-server/issues');
         }
     });
 
