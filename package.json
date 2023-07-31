@@ -9,6 +9,14 @@
     "build": "npx tsc --project tsconfig.build.json",
     "clean": "rm -rf ./dist"
   },
+  "keywords": [
+    "FTP",
+    "mock",
+    "mocking",
+    "testing",
+    "test",
+    "CI/CD"
+  ],
   "author": "Dorian VUOLO",
   "license": "MIT",
   "devDependencies": {
