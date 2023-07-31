@@ -25,9 +25,13 @@ function notLoggedIn(
 }
 
 export function notImplemented(
+    command: FtpCommands,
     socket: Socket,
     previous: StateNode,
 ): StateNode {
+    console.log(`${command} is not implemented.`);
+    console.log('If you need it anyway, you can contribute to the project at https://github.com/aitrs/simple-mock-ftp-server');
+    console.log('Or alternately, open an issue : https://github.com/aitrs/simple-mock-ftp-server/issues');
     socket.write(new Reply(
         Replies.PermanentNegativeCompletion.notImplemented,
         'Not implemented',

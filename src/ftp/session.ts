@@ -27,6 +27,7 @@ function processCommand(
             );
         case FtpCommands.account:
             return com.notImplemented(
+                c.command,
                 socket,
                 previousState,
             );
@@ -45,7 +46,7 @@ function processCommand(
                 previousState,
             );
         case FtpCommands.structureMount:
-            return com.notImplemented(socket, previousState);
+            return com.notImplemented(c.command, socket, previousState);
         case FtpCommands.reinit:
             return initState(configuration);
         case FtpCommands.quit:
@@ -81,7 +82,7 @@ function processCommand(
             );
         case FtpCommands.mode:
             console.log(c);
-            return com.notImplemented(socket, previousState);
+            return com.notImplemented(c.command, socket, previousState);
         case FtpCommands.retrieve:
             return com.retrieve(
                 c.args[0],
@@ -113,9 +114,9 @@ function processCommand(
             delete previousState.appendMode;
             return state;
         case FtpCommands.allocate:
-            return com.notImplemented(socket, previousState);
+            return com.notImplemented(c.command, socket, previousState);
         case FtpCommands.restart:
-            return com.notImplemented(socket, previousState);
+            return com.notImplemented(c.command, socket, previousState);
         case FtpCommands.renameFrom:
             return com.renameFrom(
                 c.args[0],
@@ -166,13 +167,13 @@ function processCommand(
                 return com.list(undefined, socket, previousState);
             }
         case FtpCommands.siteParameters:
-            return com.notImplemented(socket, previousState);
+            return com.notImplemented(c.command, socket, previousState);
         case FtpCommands.system:
             return com.system(socket, previousState);
         case FtpCommands.status:
             return com.status(socket, configuration, previousState);
         case FtpCommands.help:
-            return com.notImplemented(socket, previousState);
+            return com.notImplemented(c.command, socket, previousState);
         case FtpCommands.noOperations:
             return com.noop(socket, previousState);
         default:
@@ -251,7 +252,10 @@ export function bindSession(socket: net.Socket, configuration: FtpConfiguration)
                 Replies.PositiveCompletion.ok,
                 '',
             ).toString());
-            console.log(`Reveiced ingnored data ${data.toString()}`);
+            console.log(`Reveiced ignored command ${data.toString()}`);
+            console.log('This means that this command is not implemented AND not defined');
+            console.log('If you need it anyway, you can contribute to the project at https://github.com/aitrs/simple-mock-ftp-server');
+            console.log('Or alternately, open an issue : https://github.com/aitrs/simple-mock-ftp-server/issues');
         }
     });
 

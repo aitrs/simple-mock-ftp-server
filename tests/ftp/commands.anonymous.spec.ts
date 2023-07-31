@@ -4,7 +4,7 @@ import { FtpConfiguration } from '../../src/server';
 import { changeDirectory, create } from '../../src/mockfs';
 import * as Commands from '../../src/ftp/commands';
 import { generateDefaultFsNodes, generateRenameToState, getPortFromPASVResponse, getResponseFromSocket, getSocket, socketIsConnected } from './common';
-import { TypeMode } from '../../src/ftp/definitions';
+import { FtpCommands, TypeMode } from '../../src/ftp/definitions';
 
 const testPort = 12345;
 describe('Commands', () => {
@@ -73,7 +73,7 @@ describe('Commands', () => {
         });
 
         test('notImplemented', async () => {
-            expect(Commands.notImplemented(socket, state)).toMatchObject(state);
+            expect(Commands.notImplemented(FtpCommands.account, socket, state)).toMatchObject(state);
             const response = await getResponseFromSocket(client);
             expect(response).toBe('502 Not implemented\n');
         });

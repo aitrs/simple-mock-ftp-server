@@ -91,7 +91,7 @@ describe('Commands', () => {
         });
 
         test('notImplemented', async () => {
-            expect(Commands.notImplemented(socket, state)).toMatchObject(state);
+            expect(Commands.notImplemented(FtpCommands.account, socket, state)).toMatchObject(state);
             const response = await getResponseFromSocket(client);
             expect(response).toBe('502 Not implemented\n');
         });
