@@ -34,13 +34,13 @@ Must be a Buffer representing the binary contents of the mocked file in the mock
 #### ___target
 Specifies a path on the real filesystem to get contents of an existing file as part of what's in the mocked filesystem. 
 #### ___mode
-Specified the mode of the current file or folder. If not specified, defaults to 777 (all access).
+Specifies the mode of the current file or folder. If not specified, defaults to 777 (all access).
 
 ### Create a mock FTP server
 ```typescript
 import { createMockFtpServer, createMockFilesystem } from 'simple-mock-ftp-server';
 
-const server = createMockFtpServer({
+const { server, abortController } = createMockFtpServer({
     host: '127.0.0.1',
     port: '12345',
     user: 'yourUserName',
