@@ -8,6 +8,7 @@ export interface FtpConfiguration {
     user?: string,
     password?: string,
     mockFilesystem: MockFsNode,
+    forcePassivePort?: number,
 };
 
 export function createMockFtpServer(configuration: FtpConfiguration): { server: net.Server, controller: AbortController } {

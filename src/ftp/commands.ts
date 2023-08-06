@@ -330,6 +330,7 @@ function ensureFile(path: string, configuration: FtpConfiguration, state: StateN
 
 export function passive(
     socket: Socket,
+    configuration: FtpConfiguration,
     previous: StateNode,
     extended = false,
 ): StateNode {
@@ -349,7 +350,7 @@ export function passive(
             previous.dataSocket = pasvSocket;
         });
 
-        server.listen(0, '0.0.0.0', () => {
+        server.listen(configuration.forcePassivePort || 0, '0.0.0.0', () => {
             const address = server.address() as AddressInfo;
             const ip = address.address.replace(/\./g, ',');
             if (extended) {

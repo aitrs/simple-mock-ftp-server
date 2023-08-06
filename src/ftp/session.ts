@@ -60,11 +60,13 @@ function processCommand(
         case FtpCommands.passive:
             return com.passive(
                 socket,
+                configuration,
                 previousState,
             );
         case FtpCommands.extendedPassive:
             return com.passive(
                 socket,
+                configuration,
                 previousState,
                 true,
             );
