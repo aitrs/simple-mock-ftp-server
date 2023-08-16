@@ -195,7 +195,7 @@ describe('Commands', () => {
         });
 
         test('passive', async () => {
-            state = Commands.passive(socket, state);
+            state = Commands.passive(socket, configuration, state);
             expect(state.passiveServer).toBeInstanceOf(Server);
             const response = await getResponseFromSocket(client);
             const port = getPortFromPASVResponse(response);
@@ -211,7 +211,7 @@ describe('Commands', () => {
         });
 
         test('passive extended', async () => {
-            state = Commands.passive(socket, state, true);
+            state = Commands.passive(socket, configuration, state, true);
             expect(state.passiveServer).toBeInstanceOf(Server);
             const response = await getResponseFromSocket(client);
             const port = Number.parseInt(response.split(' ')[5].split('|')[3]);

@@ -127,7 +127,7 @@ describe('Passive file operations, anonymous', () => {
     });
 
     const setupPassive = async () => {
-        passiveState = Commands.passive(socket, state);
+        passiveState = Commands.passive(socket, configuration, state);
         const response = await getResponseFromSocket(client);
         const bytes = response
             .split(' ')[4]

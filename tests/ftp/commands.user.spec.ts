@@ -229,7 +229,7 @@ describe('Commands', () => {
         test.each([
             ['changeWorkingDir', { com: () => { return Commands.changeWorkingDir('/folder1', socket, configuration, state); } }],
             ['port', { com: () => { return Commands.port('126,127', socket, state); } }],
-            ['passive', { com: () => { return Commands.passive(socket, state); } }],
+            ['passive', { com: () => { return Commands.passive(socket, configuration, state); } }],
             ['retrieve', { com: () => { return Commands.retrieve('/folder1/foo', socket, state); } }],
             ['store', { com: () => { return Commands.store('/folder1/bar', socket, configuration, state); } }],
             ['renameFrom', { com: () => { return Commands.renameFrom('/folder1', socket, state); } }],
